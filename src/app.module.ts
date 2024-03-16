@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './authorization/authorization.module';
 import { AuthorizeGuard } from './authorization/guards/authorize.guard';
 import { UsersModule } from './users/users.module';
+import { RolesUser } from './enum/roles.user'; // Importação da enumeração Roles
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UsersModule],
