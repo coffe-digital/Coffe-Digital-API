@@ -1,22 +1,18 @@
-version: '3.7'
+version: '3.8'
 
 services:
-
-  # application container
-  node:
-    container_name: node-backend
-    image: nodedocker
+  api:
+    container_name: coffe-app
     restart: on-failure
-    command: "npm run start:pm2-dev"
+    # command: "npm run start:pm2-dev"
     build:
-        context: ./
-        dockerfile: ./docker/Dockerfile
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/html/
-      - /var/www/html/node_modules
-      - ./logs:/var/www/html/logs
+      - .:/usr/src/api
+      - ./logs:/usr/src/api/logs
     ports:
-      - 8000:3000
+      - "3000:3000"
     depends_on: 
       - postgre
     networks:
@@ -36,8 +32,7 @@ services:
       - "5432:5432"
     networks:
       - coffe_network
-      
-#network to hold backend/nginx/postgre
+
 networks:
   coffe_network:
     driver: bridge
