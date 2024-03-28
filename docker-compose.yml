@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
   api:
@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - .:/usr/src/api
+      - ./:/usr/src/api
       - ./logs:/usr/src/api/logs
     ports:
       - "3000:3000"
