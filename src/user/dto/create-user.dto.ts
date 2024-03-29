@@ -1,6 +1,5 @@
 import {
   IsEmail,
-  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -22,7 +21,4 @@ export class CreateUserDto extends User {
 
   @IsString()
   name: string;
-
-  @IsOptional()
-  roleId?: number | null;
 }

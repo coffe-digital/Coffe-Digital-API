@@ -3,5 +3,5 @@ export class User {
   email: string;
   password: string;
   name: string;
-  roleId?: number; // Make it optional
 }
+// implements Prisma.UserCreateInput

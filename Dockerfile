@@ -7,7 +7,8 @@ COPY package*.json ./
 
 # COPY ./.env.production ./.env
 
-RUN npm install --quiet --no-optional --no-fund --loglevel=error
+RUN npm install 
+# --quiet --no-optional --no-fund --loglevel=error
 
 COPY . . 
 
