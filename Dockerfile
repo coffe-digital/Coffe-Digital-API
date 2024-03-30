@@ -13,7 +13,14 @@ RUN npm install
 COPY . . 
 
 # Definir permissões para os arquivos copiados
-RUN chmod -R 755 .
+# RUN chmod -R 777 .
+RUN chown -R node:node /usr/src/api
+RUN chmod -R 777 /usr/src/api
+
+# Definir permissões para os arquivos copiados
+# COPY init.sh /usr/src/api/init.sh
+# RUN chmod +x /usr/src/api/init.sh
+# RUN /usr/src/api/init.sh
 
 RUN npm run build
 
