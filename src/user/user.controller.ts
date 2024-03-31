@@ -11,7 +11,6 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { exit } from 'process';
 
 @Controller('user')
 export class UserController {
