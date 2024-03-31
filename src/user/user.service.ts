@@ -23,23 +23,25 @@ export class UserService {
   }
 
   async findByEmail(query: string) {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: query },
-      });
+    const user = await this.prisma.user.findUnique({
+      where: { email: query },
+    });
 
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
+    // if (!user) {
+    //   throw new NotFoundException('User not found');
+    // }
 
-      return user;
-    } catch (error) {
-      throw new Error(`Error finding user: ${error.message}`);
-    }
+    return user;
   }
 
-  findAll() {
-    return this.prisma.user.findMany();
+  async findAll() {
+    const users = await this.prisma.user.findMany();
+
+    if (!users || users.length === 0) {
+      throw new NotFoundException('Users not found');
+    }
+
+    return users;
   }
 
   findOne(id: number) {

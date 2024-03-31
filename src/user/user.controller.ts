@@ -11,6 +11,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { exit } from 'process';
 
 @Controller('user')
 export class UserController {
@@ -21,10 +22,10 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.userService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
@@ -32,7 +33,11 @@ export class UserController {
   }
 
   @Get()
-  findByEmail(@Query('email') email: string) {
+  findByEmail(@Query('email') email?: string) {
+    if (!email) {
+      return this.userService.findAll(); // Assuming you have a findAll method
+    }
+
     return this.userService.findByEmail(email);
   }
 
