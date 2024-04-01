@@ -5,16 +5,17 @@ import { MailerModule } from '@nestjs-modules/mailer';
   imports: [
     MailerModule.forRoot({
       transport: {
-        host: 'sandbox.smtp.mailtrap.io',
-        port: 2525,
-        // secure: false,
+        host: process.env.MAIL_HOST,
+        port: parseInt(process.env.MAIL_PORT),
+        secure: process.env.MAIL_SECURE === 'true',
         auth: {
-          user: '06a7cdf18c87fd',
-          pass: '586645fa2ea7af',
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD,
         },
       },
       defaults: {
-        from: 'enzodouglaspaiva@gmail.com',
+        from: process.env.MAIL_FROM_ADDRESS,
+        name: process.env.MAIL_FROM_NAME,
       },
     }),
   ],
