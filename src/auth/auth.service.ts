@@ -6,6 +6,7 @@ import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { ResetPasswordDto } from 'src/user/dto/reset-password-user';
 
 @Injectable()
 export class AuthService {
@@ -52,39 +53,55 @@ export class AuthService {
     return this.login(newUser);
   }
 
-  //   async forgotPassword(email: string): Promise<boolean> {
-  //     const user = await this.userService.findByEmail(email);
+  async resetPassword(
+    resetPasswordDto: ResetPasswordDto,
+  ): Promise<{ message: string }> {
+    const user = await this.userService.findByEmail(resetPasswordDto.email);
 
-  //     if (!user) {
-  //       throw new NotFoundException('User not found');
-  //     }
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
-  //     const token = await this.generatePasswordToken(email);
+    const newPassword = await this.generatePassword();
 
-  //     if (!token) {
-  //       throw new Error('Error generating password token');
-  //     }
+    if (!newPassword) {
+      throw new Error('Error generating new password');
+    }
 
-  //     const emailSent = await this.sendForgotPasswordEmail(email, token);
+    if (this.userService.updatePassword(user.id, newPassword)) {
+      //   const emailSent = await this.sendForgotPasswordEmail(
+      //     user.email,
+      //     newPassword,
+      //   );
 
-  //     if (!emailSent) {
-  //       throw new Error('Error sending forgot password email');
-  //     }
+      //   if (!emailSent) {
+      //     throw new Error('Error sending forgot password email');
+      //   }
 
-  //     return true;
-  //   }
+      return {
+        message:
+          'Password reset successful. Your new password is: ' + newPassword,
+      };
+    }
 
-  //   private async generatePasswordToken(email: string): Promise<string> {
-  //     // Generate a password reset token (e.g., a random string or a JWT with a short expiry time)
-  //     // For simplicity, let's assume it's a random 6-digit number
-  //     const passwordToken = Math.floor(
-  //       100000 + Math.random() * 900000,
-  //     ).toString();
+    throw new Error('Error update new password');
+  }
 
-  //     // Store the token in your database or cache
-  //     // For this example, we'll just log it
-  //     console.log(`Password reset token for ${email}: ${passwordToken}`);
+  private async generatePassword(): Promise<string> {
+    const length = 10;
+    const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const specialChars = '!@#$%';
 
-  //     return passwordToken;
-  //   }
+    const allChars = upperChars + lowerChars + numbers + specialChars;
+    let password = '';
+
+    for (let i = 0; i < length; i++) {
+      const index = Math.floor(Math.random() * allChars.length);
+      password += allChars[index];
+    }
+
+    return password;
+  }
 }

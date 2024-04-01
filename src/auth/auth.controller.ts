@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { IsPublic } from './decorators/is-public.decorator';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { ResetPasswordDto } from 'src/user/dto/reset-password-user';
 
 @Controller()
 export class AuthController {
@@ -31,5 +32,12 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   register(@Body() createUserDto: CreateUserDto) {
     return this.AuthService.register(createUserDto);
+  }
+
+  @IsPublic()
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    return this.AuthService.resetPassword(resetPasswordDto);
   }
 }

@@ -70,4 +70,20 @@ export class UserService {
   remove(id: number) {
     return this.prisma.user.delete({ where: { id } });
   }
+
+  async updatePassword(id: number, newPassword: string) {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return {
+      ...updatedUser,
+      password: undefined,
+    };
+  }
 }
