@@ -20,6 +20,8 @@
 - Nest.js
 - PostgreSQL
 - Swagger
+- NodeMailer
+- JWT
 
 ## Running the app
 
