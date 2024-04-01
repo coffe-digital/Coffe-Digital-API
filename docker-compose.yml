@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  api:
+    container_name: coffe-app
+    restart: on-failure
+    # command: "npm run start:pm2-dev"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/api
+      - ./logs:/usr/src/api/logs
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - postgre
+    networks:
+      - coffe_network
+
+  postgre:
+    image: postgres:latest
+    restart: on-failure
+    container_name: coffe-database
+    environment:
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - coffe_network
+      
+volumes:
+  pg-data:
+
+networks:
+  coffe_network:
+    driver: bridge
