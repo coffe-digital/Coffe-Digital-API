@@ -6,6 +6,8 @@ import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
+import { EmailModule } from 'src/mail/email.module';
+import { EmailService } from 'src/mail/email.service';
 
 @Module({
   imports: [
@@ -14,9 +16,10 @@ import { LoginValidationMiddleware } from './middlewares/login-validation.middle
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1d' },
     }),
+    EmailModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, EmailService],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

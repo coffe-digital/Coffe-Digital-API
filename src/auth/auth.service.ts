@@ -7,12 +7,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { ResetPasswordDto } from 'src/user/dto/reset-password-user';
+import { EmailService } from 'src/mail/email.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -69,14 +71,7 @@ export class AuthService {
     }
 
     if (this.userService.updatePassword(user.id, newPassword)) {
-      //   const emailSent = await this.sendForgotPasswordEmail(
-      //     user.email,
-      //     newPassword,
-      //   );
-
-      //   if (!emailSent) {
-      //     throw new Error('Error sending forgot password email');
-      //   }
+      await this.emailService.sendPasswordResetEmail(user.email);
 
       return {
         message:
