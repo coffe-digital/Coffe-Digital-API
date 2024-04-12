@@ -1,0 +1,24 @@
+###list office
+GET http://localhost:3000/office
+
+###ger office
+GET http://localhost:3000/office/dev_027THktk1pXVvBnE57YGP
+
+###create office
+POST  http://localhost:3000/office
+Content-Type: application/json
+
+{
+    "name": "cliente"
+}
+
+###update office
+PATCH   http://localhost:3000/office/dev_027THktk1pXVvBnE57YGP
+Content-Type: application/json
+
+{
+    "name": "admin"
+}
+
+###delete office
+DELETE  http://localhost:3000/office/dev_027THktk1pXVvBnE57YGP
