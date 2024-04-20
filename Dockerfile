@@ -1,27 +1,24 @@
-FROM node:20.5.0-buster
+FROM node:20.5.0-buster AS builder
 
 WORKDIR /usr/src/api
 
-COPY package*.json ./
+# COPY package*.json ./
 
+# RUN npm install
 
-# COPY ./.env.production ./.env
+COPY prisma ./prisma
+RUN npx prisma generate
 
-RUN npm install 
-# --quiet --no-optional --no-fund --loglevel=error
+# COPY . .
 
-COPY . . 
+# RUN npm run build
 
-# Definir permissões para os arquivos copiados
-# RUN chmod -R 777 .
-RUN chown -R node:node /usr/src/api
-RUN chmod -R 777 /usr/src/api
+# FROM node:20.5.0-buster
 
-# Definir permissões para os arquivos copiados
-# COPY init.sh /usr/src/api/init.sh
-# RUN chmod +x /usr/src/api/init.sh
-# RUN /usr/src/api/init.sh
+# WORKDIR /usr/src/api
 
-RUN npm run build
+# COPY --from=builder /usr/src/api/node_modules ./node_modules
 
-CMD ["npm", "run", "start:dev"]
+# COPY --from=builder /usr/src/api .
+
+CMD ["npm", "run", "start:docker:dev"]
