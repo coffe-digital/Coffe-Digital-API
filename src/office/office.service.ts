@@ -1,39 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException, BadRequestException} from '@nestjs/common';
 import { CreateOfficeDto } from './dto/create-office.dto';
 import { UpdateOfficeDto } from './dto/update-office.dto';
-import { Repository } from 'typeorm';
 import { Office } from './entities/office.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class OfficeService {
-  constructor(
-    @InjectRepository(Office)
-    private readonly repository: Repository<Office>) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateOfficeDto) {
-    const office = this.repository.create(dto);
-    return this.repository.save(office);
+  async create(dto: CreateOfficeDto) {
+    const officeExists = await this.prisma.office.findUnique({
+      where: { name: dto.name },
+    });
+
+    if (officeExists) {
+      throw new BadRequestException('Office already exists');
+    }
+
+    const office = await this.prisma.office.create(dto);
+    return office;
   }
 
-  findAll() {
-    return this.repository.find();
+  async findAll() {
+    const offices = await this.prisma.office.findMany();
+
+    if (!offices || offices.length === 0) {
+      throw new NotFoundException('Offices not found');
+    }
+
+    return offices;
   }
 
-  findOne(id: string) {
-    return this.repository.findOneBy({ id });
+  findOne(id: number) {
+    return this.prisma.office.findUnique({ where: { id } });
   }
 
-  async update(id: string, dto: UpdateOfficeDto) {
-    const office = await this.repository.findOneBy({ id });
-    if (!office) return null;
-    this.repository.merge(office,dto);
-    return this.repository.save(office);
+  update(id: number, dto: UpdateOfficeDto) {
+    return this.prisma.office.update({
+      where: { id },
+      data: dto,
+    });
   }
 
-  async remove(id: string) {
-    const office = await this.repository.findOneBy({ id });
-    if (!office) return null;
-    return this.repository.remove(office);
+  remove(id: number) {
+    return this.prisma.office.delete({ where: { id } });
   }
+
 }
