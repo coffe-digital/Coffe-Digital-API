@@ -1,24 +1,34 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PlanService } from './plan.service';
+import { CreatePlanDto } from './dto/create-plan.dto';
+import { UpdatePlanDto } from './dto/update-plan.dto';
 
 @Controller('plan')
 export class PlanController {
-    constructor(private readonly: PlanService){}
+  constructor(private readonly planService: PlanService) {}
 
-    @Get()
-    find_all(){
-        return 'lista de planos aqui';
-    }
+  @Post()
+  create(@Body() createPlanDto: CreatePlanDto) {
+    return this.planService.create(createPlanDto);
+  }
 
-    @Get(':id')
-    find_one(@Param('id') id: string){
-        return `1 curso aqui: ${id}`;
-    }
+  @Get()
+  findAll() {
+    return this.planService.findAll();
+  }
 
-    @Post()
-    @HttpCode(HttpStatus.NO_CONTENT)
-    create_plan(@Body() body){
-        return body;
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.planService.findOne(+id);
+  }
 
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
+    return this.planService.update(+id, updatePlanDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.planService.remove(+id);
+  }
 }

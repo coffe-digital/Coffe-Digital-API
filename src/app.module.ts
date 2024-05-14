@@ -11,8 +11,9 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { PermissionModule } from './permission/permission.module';
 import { PlanModule } from './plan/plan.module';
 
+
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, UserModule, AuthModule],
+  imports: [ConfigModule.forRoot(), PrismaModule, UserModule, AuthModule, PlanModule, RoleModule, PermissionModule],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
