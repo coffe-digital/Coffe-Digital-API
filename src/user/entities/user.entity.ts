@@ -3,6 +3,6 @@ export class User {
   email: string;
   password: string;
   name: string;
-  roleId: number;
+  roleId?: number;
 }
 // implements Prisma.UserCreateInput
