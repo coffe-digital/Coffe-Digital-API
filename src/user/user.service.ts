@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { connect } from 'http2';
 
 @Injectable()
 export class UserService {
@@ -22,8 +23,13 @@ export class UserService {
     }
 
     const data = {
-      ...createUserDto,
+      ...createUserDto,roleName,
       password: await bcrypt.hash(createUserDto.password, 10),
+      Role: {
+        connect: {
+          name: roleName
+        }
+      }, 
     };
 
     const createdUser = await this.prisma.user.create({ data });

@@ -21,4 +21,6 @@ export class CreateUserDto extends User {
 
   @IsString()
   name: string;
+
+  roleId: number;
 }

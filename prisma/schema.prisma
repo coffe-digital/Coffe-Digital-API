@@ -21,11 +21,14 @@ model User {
   name String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  roleId Int?// Adiciona um campo para a chave estrangeira roleId
+  Role Role? @relation(fields: [roleId], references: [id]) // Define a relação com o modelo Role
 }
 
 model Role {
   id Int @id @default(autoincrement())
   name String @unique
+  users User[]
   
 }
 model Permission {
