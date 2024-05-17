@@ -1,8 +1,11 @@
-import {Injectable, NotFoundException, BadRequestException} from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 //import { Role } from './entities/role.entity';
-import { RoleModule } from './role.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -61,5 +64,4 @@ export class RoleService {
   remove(id: number) {
     return this.prisma.role.delete({ where: { id } });
   }
-
 }
