@@ -41,11 +41,14 @@ export class RolePermissionService {
   async findPermissionsByRole(roleId: number) {
     const rolesPermissions = await this.prisma.rolePermission.findMany({
       where: { roleId: roleId },
+      include: { permission: true },
     });
 
     if (!rolesPermissions || rolesPermissions.length === 0) {
       throw new NotFoundException('Permissions not found for role');
     }
+
+    return rolesPermissions.map((rp) => rp.permission);
 
     return rolesPermissions;
   }
