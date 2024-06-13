@@ -1,6 +1,5 @@
-import { IsBoolean, IsString, IsDecimal, IsNumber } from 'class-validator'
+import { IsBoolean, IsString, IsNumber } from 'class-validator'
 import {Plan} from '../entities/plan.entity'
-import { Decimal } from '@prisma/client/runtime/library';
 
 export class CreatePlanDto extends Plan {
     

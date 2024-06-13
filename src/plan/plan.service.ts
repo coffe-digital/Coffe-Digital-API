@@ -7,7 +7,6 @@ import {
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class PlanService {
@@ -38,7 +37,7 @@ export class PlanService {
     const plans = await this.prisma.plan.findMany();
 
     if (!plans || plans.length === 0) {
-      throw new NotFoundException('plans not found');
+      throw new NotFoundException('Plans not found');
     }
 
     return plans;

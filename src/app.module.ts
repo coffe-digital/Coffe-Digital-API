@@ -10,10 +10,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { PermissionModule } from './permission/permission.module';
 import { PlanModule } from './plan/plan.module';
+import { ProductModule } from './product/product.module';
 
 
 @Module({
-  imports: [ConfigModule.forRoot(), PrismaModule, UserModule, AuthModule, PlanModule, RoleModule, PermissionModule],
+  imports: [ConfigModule.forRoot(), PrismaModule, UserModule, AuthModule, PlanModule, RoleModule, PermissionModule, ProductModule],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
