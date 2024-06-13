@@ -12,6 +12,7 @@ import { PermissionModule } from './permission/permission.module';
 import { RolePermissionModule } from './role_permission/role_permission.module';
 import { AddressModule } from './address/address.module';
 import { ClientModule } from './client/client.module';
+import { PlanModule } from './plan/plan.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ClientModule } from './client/client.module';
     RolePermissionModule,
     ClientModule,
     AddressModule,
+    PlanModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
