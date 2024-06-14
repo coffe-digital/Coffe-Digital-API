@@ -24,6 +24,7 @@ model User {
   updatedAt   DateTime @updatedAt
   roleId Int?
   role Role? @relation(fields: [roleId], references: [id])
+  client Client?
 }
 
 model Role {
@@ -55,6 +56,27 @@ model RolePermission {
   @@unique([roleId, permissionId])
 }
 
+model Address {
+    id Int @id @default(autoincrement())
+    state String
+    city String
+    street String
+    number String
+    postal_code String
+    description String
+    clientId Int?
+    client Client? @relation(fields: [clientId], references: [id])
+  }
+
+model Client {
+    id Int @id @default(autoincrement())
+    userId Int? @unique
+    user User? @relation(fields: [userId], references: [id])
+    phone String
+    birth_date String
+    rg String
+    address Address[]
+  }
 model Plan {
   id Int @id @default(autoincrement())
   name String @unique

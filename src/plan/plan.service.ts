@@ -12,13 +12,12 @@ import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 @Injectable()
 export class PlanService {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async create(createPlanDto: CreatePlanDto) {
-    
     const planExists = await this.prisma.plan.findFirst({
       where: { name: createPlanDto.name },
     });
-    
+
     if (planExists) {
       throw new BadRequestException('Plan already exists');
     }
@@ -26,7 +25,7 @@ export class PlanService {
     const data = {
       ...createPlanDto,
     };
-    
+
     const createdPlan = await this.prisma.plan.create({ data });
 
     return {
@@ -45,12 +44,12 @@ export class PlanService {
   }
 
   findOne(id: number) {
-    const plan =  this.prisma.plan.findUnique({
-      where:{id: id},
+    const plan = this.prisma.plan.findUnique({
+      where: { id: id },
     });
 
-    if(!plan){
-      throw new NotFoundException("Plan not found");
+    if (!plan) {
+      throw new NotFoundException('Plan not found');
     }
 
     return plan;
