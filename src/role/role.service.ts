@@ -1,8 +1,11 @@
-import {Injectable, NotFoundException, BadRequestException} from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
 //import { Role } from './entities/role.entity';
-import { RoleModule } from './role.module';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -39,8 +42,16 @@ export class RoleService {
     return roles;
   }
 
-  findOne(id: number) {
-    return this.prisma.role.findUnique({ where: { id } });
+  async findOne(id: number) {
+    const role = await this.prisma.role.findUnique({
+      where: { id: id },
+    });
+
+    if (!role) {
+      throw new NotFoundException('Role not found');
+    }
+
+    return role;
   }
 
   update(id: number, dto: UpdateRoleDto) {
@@ -53,5 +64,4 @@ export class RoleService {
   remove(id: number) {
     return this.prisma.role.delete({ where: { id } });
   }
-
 }

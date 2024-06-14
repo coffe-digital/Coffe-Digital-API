@@ -21,6 +21,15 @@ export class UserService {
       throw new BadRequestException('Email already exists');
     }
 
+    if (createUserDto.roleId !== undefined) {
+      const idRole = await this.prisma.role.findUnique({
+        where: { id: createUserDto.roleId },
+      });
+
+      if (!idRole) {
+        throw new BadRequestException('Role not exists');
+      }
+    }
     const data = {
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
@@ -60,7 +69,17 @@ export class UserService {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  update(id: number, UpdateUserDto: UpdateUserDto) {
+  async update(id: number, UpdateUserDto: UpdateUserDto) {
+    if (UpdateUserDto.roleId != null) {
+      const idRole = await this.prisma.role.findUnique({
+        where: { id: UpdateUserDto.roleId },
+      });
+
+      if (!idRole) {
+        throw new BadRequestException('Role not exists');
+      }
+    }
+
     return this.prisma.user.update({
       where: { id },
       data: UpdateUserDto,
