@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 
@@ -12,7 +12,7 @@ export class CreateClientDto extends CreateUserDto {
   @IsNotEmpty()
   @IsString()
   rg: string;
-  @IsNotEmpty()
-  @IsNumber()
-  userId: number;
+  /*@IsNotEmpty()
+    @IsNumber()
+    userId: number;*/
 }
