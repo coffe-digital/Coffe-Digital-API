@@ -14,6 +14,7 @@ import { AddressModule } from './address/address.module';
 import { ClientModule } from './client/client.module';
 import { PlanModule } from './plan/plan.module';
 import { ProductModule } from './product/product.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ProductModule } from './product/product.module';
     AddressModule,
     PlanModule,
     ProductModule,
+    PurchaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],

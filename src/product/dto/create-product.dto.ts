@@ -1,4 +1,4 @@
-import { IsBoolean, IsString, IsNumber } from 'class-validator'
+import { IsString, IsNumber } from 'class-validator'
 import { Product } from '../entities/product.entity';
 
 export class CreateProductDto extends Product{
