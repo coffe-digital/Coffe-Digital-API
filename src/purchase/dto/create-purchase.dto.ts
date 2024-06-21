@@ -24,11 +24,9 @@ export class CreatePurchaseDto extends Purchase{
     payment_status: boolean;
 
     @IsNumber()
-    @Matches(new RegExp('^[0-9]{13}$'), { message: 'start_subscription_date must be a 13 digit number' })
     start_subscription_date: number;
 
     @IsNumber()
-    @Matches(new RegExp('^[0-9]{13}$'), { message: 'end_subscription_date must be a 13 digit number' })
     end_subscription_date: number;
 
     @IsBoolean()
