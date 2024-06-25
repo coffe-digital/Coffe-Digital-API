@@ -84,3 +84,13 @@ model Plan {
   status Boolean
   price Decimal @db.Decimal(5,2)
 }
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  price Decimal @db.Decimal(5,2)
+  bar_code String
+  quantity Int
+  image String
+}
