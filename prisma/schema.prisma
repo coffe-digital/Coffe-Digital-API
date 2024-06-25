@@ -94,3 +94,17 @@ model Product {
   quantity Int
   image String
 }
+
+model Purchase {
+    id Int @id @default(autoincrement())
+    type String
+    client_id  Int
+    product_id  Int
+    plan_id  Int
+    payday  Int
+    payment_method  Int
+    payment_status Boolean
+    start_subscription_date  Int
+    end_subscription_date  Int
+    canceled Boolean
+}
