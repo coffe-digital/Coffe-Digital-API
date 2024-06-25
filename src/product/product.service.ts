@@ -39,6 +39,12 @@ export class ProductService {
       throw new NotFoundException('Products not found');
     }
 
+    for (const product of products) {
+      if (product.image) {
+        product.image = await this.supabaseService.getPublicUrl(product.image);
+      }
+    }
+
     return products;
   }
 
