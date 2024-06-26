@@ -93,18 +93,33 @@ model Product {
   bar_code String
   quantity Int
   image String
+  brand_id Int
+  brand Brand @relation(fields: [brand_id], references: [id])
+
+  @@unique([brand_id])
 }
 
 model Purchase {
-    id Int @id @default(autoincrement())
-    type String
-    client_id  Int
-    product_id  Int
-    plan_id  Int
-    payday  Int
-    payment_method  Int
-    payment_status Boolean
-    start_subscription_date  Int
-    end_subscription_date  Int
-    canceled Boolean
+  id Int @id @default(autoincrement())
+  type String
+  client_id  Int
+  product_id  Int
+  plan_id  Int
+  payday  Int
+  payment_method  Int
+  payment_status Boolean
+  start_subscription_date  Int
+  end_subscription_date  Int
+  canceled Boolean
 }
+
+model Brand {
+  id Int @id @default(autoincrement())
+  name String
+  product_id Int
+  Product Product?
+}
+
+
+
+
