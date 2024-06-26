@@ -74,14 +74,37 @@ export class ProductService {
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
+  async update(id: number, updateProductDto: UpdateProductDto, file: FileDTO) {
+    let imagePath: string;
+
+    if (file) {
+      imagePath = await this.supabaseService.uploadImage(file);
+      updateProductDto.image = imagePath;
+    }
+
+    const updatedProduct = await this.prisma.product.update({
       where: { id },
       data: updateProductDto,
     });
+
+    return {
+      ...updatedProduct,
+    };
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    if (product.image) {
+      await this.supabaseService.deleteImage(product.image);
+    }
+
     return this.prisma.product.delete({ where: { id } });
   }
 
