@@ -15,6 +15,7 @@ import { ClientModule } from './client/client.module';
 import { PlanModule } from './plan/plan.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -30,6 +31,9 @@ import { PurchaseModule } from './purchase/purchase.module';
     PlanModule,
     ProductModule,
     PurchaseModule,
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
