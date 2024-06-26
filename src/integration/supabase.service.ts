@@ -33,6 +33,7 @@ export class SupabaseService {
       });
 
     if (error) {
+      console.log(error)
       throw new Error('Failed to upload image');
     }
 
@@ -47,5 +48,15 @@ export class SupabaseService {
     console.log(path)
 
     return data.publicUrl || null;
+  }
+
+  async deleteImage(imagePath: string): Promise<void> {
+    const { error } = await this.supabase.storage
+      .from('coffe')
+      .remove([imagePath]);
+
+    if (error) {
+      throw new Error('Failed to delete image');
+    }
   }
 }
