@@ -17,6 +17,7 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { CategoryProductModule } from './CategoryProduct/category_product.module';
 import { ContactModule } from './contact/contact.module';
+import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ContactModule } from './contact/contact.module';
     CategoryModule,
     CategoryProductModule,
     ContactModule,
+    PurchaseModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
