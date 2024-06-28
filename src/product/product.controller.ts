@@ -8,6 +8,8 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
+  Res,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -16,6 +18,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { FileDTO } from './dto/file.dto';
 import { SupabaseService } from 'src/integration/supabase.service';
+import { Response } from 'express';
+import { ProductQueryDto } from './dto/product-query.dto';
 
 @Controller('product')
 export class ProductController {
@@ -46,5 +50,30 @@ export class ProductController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
+  }
+
+  @Get('export/excel')
+  async exportToExcel(@Query() queryParams: ProductQueryDto, @Res() res: Response) {
+    const buffer = await this.productService.exportToExcel(queryParams);
+
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="products_${Date.now()}.xlsx"`,
+    });
+
+    res.send(buffer); // Envia o buffer como resposta
+  }
+
+  @Get('export/pdf')
+  async exportToPDF(@Query() queryParams: ProductQueryDto, @Res() res: Response) {
+    const buffer = await this.productService.exportToPDF(queryParams);
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="products_${Date.now()}.pdf"`,
+      'Content-Length': buffer.length,
+    });
+
+    res.send(buffer);
   }
 }
