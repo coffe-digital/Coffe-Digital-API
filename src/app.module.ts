@@ -14,6 +14,9 @@ import { AddressModule } from './address/address.module';
 import { ClientModule } from './client/client.module';
 import { PlanModule } from './plan/plan.module';
 import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
+import { CategoryProductModule } from './CategoryProduct/category_product.module';
+import { ContactModule } from './contact/contact.module';
 import { PurchaseModule } from './purchase/purchase.module';
 
 @Module({
@@ -29,6 +32,9 @@ import { PurchaseModule } from './purchase/purchase.module';
     AddressModule,
     PlanModule,
     ProductModule,
+    CategoryModule,
+    CategoryProductModule,
+    ContactModule,
     PurchaseModule,
   ],
   controllers: [AppController],

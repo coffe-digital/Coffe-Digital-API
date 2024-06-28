@@ -93,8 +93,34 @@ model Product {
   bar_code String
   quantity Int
   image String
+  categories CategoryProduct[]
 }
 
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  products CategoryProduct[]
+}
+
+model CategoryProduct {
+  id Int @id @default(autoincrement())
+  productId Int
+  categoryId Int
+  product Product @relation(fields: [productId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([productId, categoryId])
+}
+
+model Contact{
+    id Int @id @default(autoincrement())
+    name String
+    address String
+    phone String
+    email String
+    description String
+    googlemaps String
+  }
 model Purchase {
     id Int @id @default(autoincrement())
     type String
