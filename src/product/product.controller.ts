@@ -6,12 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
   Query,
   Res,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+import { FileDTO } from './dto/file.dto';
+import { SupabaseService } from 'src/integration/supabase.service';
 import { Response } from 'express';
 import { ProductQueryDto } from './dto/product-query.dto';
 
@@ -20,8 +26,9 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(@Body() createProductDto: CreateProductDto, @UploadedFile() file: FileDTO) {
+    return this.productService.create(createProductDto, file);
   }
 
   @Get()
@@ -35,8 +42,9 @@ export class ProductController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  @UseInterceptors(FileInterceptor('image'))
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @UploadedFile() file: FileDTO) {
+    return this.productService.update(+id, updateProductDto, file);
   }
 
   @Delete(':id')

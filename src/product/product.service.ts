@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FileDTO } from './dto/file.dto';
+import { SupabaseService } from 'src/integration/supabase.service';
 import { ProductQueryDto } from './dto/product-query.dto';
 import * as ExcelJS from 'exceljs';
 import * as PDFKit from 'pdfkit';
@@ -10,11 +12,22 @@ import { Buffer } from 'buffer'; // Importe o Buffer corretamente
 
 @Injectable()
 export class ProductService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly supabaseService: SupabaseService
+    ) {}
 
-  async create(createProductDto: CreateProductDto) {
+  async create(createProductDto: CreateProductDto, file: FileDTO) {
+
+    // if (!file) {
+    //   throw new Error('Failed to upload image');
+    // }
+
+    // let imagePath = await this.supabaseService.uploadImage(file);
+
     const data = {
       ...createProductDto,
+      // image: imagePath,
     };
 
     const createdProduct = await this.prisma.product.create({ data });
@@ -36,11 +49,17 @@ export class ProductService {
       throw new NotFoundException('Products not found');
     }
 
+    // for (const product of products) {
+    //   if (product.image) {
+    //     product.image = await this.supabaseService.getPublicUrl(product.image);
+    //   }
+    // }
+
     return products;
   }
 
-  findOne(id: number) {
-    const product = this.prisma.product.findUnique({
+  async findOne(id: number) {
+    const product = await this.prisma.product.findUnique({
       where: { id: id },
     });
 
@@ -48,17 +67,44 @@ export class ProductService {
       throw new NotFoundException('Product not found');
     }
 
+    // if (product && product.image) {
+    //   product.image = await this.supabaseService.getPublicUrl(product.image);
+    // }
+
     return product;
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
+  async update(id: number, updateProductDto: UpdateProductDto, file: FileDTO) {
+    let imagePath: string;
+
+    if (file) {
+      imagePath = await this.supabaseService.uploadImage(file);
+      updateProductDto.image = imagePath;
+    }
+
+    const updatedProduct = await this.prisma.product.update({
       where: { id },
       data: updateProductDto,
     });
+
+    return {
+      ...updatedProduct,
+    };
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+
+    if (!product) {
+      throw new Error('Product not found');
+    }
+
+    if (product.image) {
+      await this.supabaseService.deleteImage(product.image);
+    }
+
     return this.prisma.product.delete({ where: { id } });
   }
 

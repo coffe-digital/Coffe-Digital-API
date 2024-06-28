@@ -18,6 +18,7 @@ import { CategoryModule } from './category/category.module';
 import { CategoryProductModule } from './CategoryProduct/category_product.module';
 import { ContactModule } from './contact/contact.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -36,6 +37,9 @@ import { PurchaseModule } from './purchase/purchase.module';
     CategoryProductModule,
     ContactModule,
     PurchaseModule,
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
