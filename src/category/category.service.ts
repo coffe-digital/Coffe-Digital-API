@@ -61,7 +61,15 @@ import {
       });
     }
   
-    remove(id: number) {
+    async remove(id: number) {
+      const relatedProducts = await this.prisma.categoryProduct.findMany({
+        where: { categoryId: id },
+      });
+  
+      if (relatedProducts.length > 0) {
+        throw new BadRequestException('Category cannot be deleted as it is related to some products.');
+      }
+
       return this.prisma.category.delete({ where: { id } });
     }
   }
