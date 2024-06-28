@@ -35,8 +35,9 @@ export class PurchaseController {
     return this.purchaseService.update(+id, updatePurchaseDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.purchaseService.remove(+id);
-  }
+  //nao pode apagar - só cancelar a compra
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.purchaseService.remove(+id);
+  // }
 }

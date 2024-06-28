@@ -1,5 +1,6 @@
-import { IsBoolean, IsString, IsNumber, Matches } from 'class-validator'
+import { IsBoolean, IsString, IsNumber, Matches, IsOptional, IsDate, IsDateString } from 'class-validator'
 import { Purchase } from '../entities/purchase.entity';
+import { Transform, Type } from 'class-transformer';
 
 export class CreatePurchaseDto extends Purchase{
     @IsString()
@@ -8,9 +9,11 @@ export class CreatePurchaseDto extends Purchase{
     @IsNumber()
     client_id: number;
 
+    @IsOptional()
     @IsNumber()
     product_id: number;
 
+    @IsOptional()
     @IsNumber()
     plan_id: number;
 
@@ -23,11 +26,13 @@ export class CreatePurchaseDto extends Purchase{
     @IsBoolean()
     payment_status: boolean;
 
-    @IsNumber()
-    start_subscription_date: number;
+    @IsString()
+    @Matches(/^\d{2}\/\d{2}\/\d{4}$/, { message: 'start_subscription_date must be in the format dd/mm/yyyy' })
+    start_subscription_date: string;
 
-    @IsNumber()
-    end_subscription_date: number;
+    @IsString()
+    @Matches(/^\d{2}\/\d{2}\/\d{4}$/, { message: 'start_subscription_date must be in the format dd/mm/yyyy' })
+    end_subscription_date: string;
 
     @IsBoolean()
     canceled: boolean;
