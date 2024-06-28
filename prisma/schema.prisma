@@ -21,7 +21,7 @@ model User {
   password String
   name String
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @updatedAt @default(now())
   roleId Int?
   role Role? @relation(fields: [roleId], references: [id])
   client Client?
@@ -34,14 +34,14 @@ model Role {
   
   permissions RolePermission[]
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @updatedAt @default(now())
 }
 model Permission {
   id Int @id @default(autoincrement())
   name String @unique
   roles RolePermission[]
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @updatedAt @default(now())
 }
 
 model RolePermission {
@@ -51,7 +51,7 @@ model RolePermission {
   role Role @relation(fields: [roleId], references: [id])
   permission Permission @relation(fields: [permissionId], references: [id])
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @updatedAt @default(now())
 
   @@unique([roleId, permissionId])
 }
@@ -66,6 +66,8 @@ model Address {
     description String
     clientId Int?
     client Client? @relation(fields: [clientId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
   }
 
 model Client {
@@ -76,6 +78,9 @@ model Client {
     birth_date String
     rg String
     address Address[]
+    purchase Purchase[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
   }
 model Plan {
   id Int @id @default(autoincrement())
@@ -83,6 +88,9 @@ model Plan {
   description String
   status Boolean
   price Decimal @db.Decimal(5,2)
+  purchase Purchase[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
 }
 
 model Product {
@@ -93,18 +101,60 @@ model Product {
   bar_code String
   quantity Int
   image String
+  categories CategoryProduct[]
+  purchase Purchase[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
 }
 
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  products CategoryProduct[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
+}
+
+model CategoryProduct {
+  id Int @id @default(autoincrement())
+  productId Int
+  categoryId Int
+  product Product @relation(fields: [productId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([productId, categoryId])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt @default(now())
+}
+
+model Contact{
+    id Int @id @default(autoincrement())
+    name String
+    address String
+    phone String
+    email String
+    description String
+    googlemaps String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
+  }
 model Purchase {
     id Int @id @default(autoincrement())
     type String
-    client_id  Int
-    product_id  Int
-    plan_id  Int
-    payday  Int
-    payment_method  Int
+    client_id Int
+    client Client? @relation(fields: [client_id], references: [id])
+    product_id Int?
+    product Product? @relation(fields: [product_id], references: [id])
+    plan_id Int?
+    plan Plan? @relation(fields: [plan_id], references: [id])
+    payday Int
+    payment_method Int
     payment_status Boolean
-    start_subscription_date  Int
-    end_subscription_date  Int
+    start_subscription_date String
+    end_subscription_date String
     canceled Boolean
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
 }
+

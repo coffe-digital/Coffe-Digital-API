@@ -7,7 +7,7 @@ export class Purchase {
     payday: number;
     payment_method: number;
     payment_status: boolean;
-    start_subscription_date: number;
-    end_subscription_date: number;
+    start_subscription_date: string;
+    end_subscription_date: string;
     canceled: boolean;
 }
