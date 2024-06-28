@@ -8,6 +8,16 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createProductDto: CreateProductDto) {
+
+    if (createProductDto.brand_id) {
+      const brand = await this.prisma.brand.findUnique({
+        where: { id: createProductDto.brand_id },
+      });
+      if (!brand) {
+        throw new NotFoundException('Brand not found');
+      }
+    }
+
     const data = {
       ...createProductDto,
     };

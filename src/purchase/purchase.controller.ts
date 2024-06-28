@@ -4,8 +4,7 @@ import {
   Post,
   Body,
   Patch,
-  Param,
-  Delete
+  Param
 } from '@nestjs/common';
 import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto } from './dto/create-purchase.dto';
@@ -47,10 +46,4 @@ export class PurchaseController {
   update(@Param('id') id: string, @Body() updatePurchaseDto: UpdatePurchaseDto) {
     return this.purchaseService.update(+id, updatePurchaseDto);
   }
-
-  //nao pode apagar - só cancelar a compra
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.purchaseService.remove(+id);
-  // }
 }

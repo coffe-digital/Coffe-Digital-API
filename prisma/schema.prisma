@@ -103,6 +103,8 @@ model Product {
   image String
   categories CategoryProduct[]
   purchase Purchase[]
+  brand_id Int?
+  brand Brand? @relation(fields: [brand_id], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt @default(now())
 }
@@ -139,6 +141,7 @@ model Contact{
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt @default(now())
   }
+
 model Purchase {
     id Int @id @default(autoincrement())
     type String
@@ -158,3 +161,17 @@ model Purchase {
     updatedAt   DateTime @updatedAt @default(now())
 }
 
+model Brand {
+    id Int @id @default(autoincrement())
+    name String
+    product Product[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
+}
+
+model AboutUs {
+    id Int @id @default(autoincrement())
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt @default(now())
+}

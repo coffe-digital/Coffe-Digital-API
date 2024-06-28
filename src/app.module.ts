@@ -18,6 +18,8 @@ import { CategoryModule } from './category/category.module';
 import { CategoryProductModule } from './CategoryProduct/category_product.module';
 import { ContactModule } from './contact/contact.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { BrandModule } from './brand/brand.module';
+import { AboutUsModule } from './about_us/about_us.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { PurchaseModule } from './purchase/purchase.module';
     CategoryProductModule,
     ContactModule,
     PurchaseModule,
+    BrandModule,
+    AboutUsModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],

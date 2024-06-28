@@ -12,8 +12,9 @@ import { CreateClientDto } from './dto/create-client.dto';
 import { ClientService } from './client.service';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
-import { UserController } from 'src/user/user.controller';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('client')
 @Controller('client')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
