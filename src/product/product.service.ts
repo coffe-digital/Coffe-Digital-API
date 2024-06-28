@@ -19,11 +19,11 @@ export class ProductService {
 
   async create(createProductDto: CreateProductDto, file: FileDTO) {
 
-    if (!file) {
-      throw new Error('Failed to upload image');
-    }
+    // if (!file) {
+    //   throw new Error('Failed to upload image');
+    // }
 
-    let imagePath = await this.supabaseService.uploadImage(file);
+    // let imagePath = await this.supabaseService.uploadImage(file);
 
     if (createProductDto.brand_id) {
       const brand = await this.prisma.brand.findUnique({
@@ -36,7 +36,7 @@ export class ProductService {
 
     const data = {
       ...createProductDto,
-      image: imagePath,
+      // image: imagePath,
     };
 
     const createdProduct = await this.prisma.product.create({ data });
@@ -58,11 +58,11 @@ export class ProductService {
       throw new NotFoundException('Products not found');
     }
 
-    for (const product of products) {
-      if (product.image) {
-        product.image = await this.supabaseService.getPublicUrl(product.image);
-      }
-    }
+    // for (const product of products) {
+    //   if (product.image) {
+    //     product.image = await this.supabaseService.getPublicUrl(product.image);
+    //   }
+    // }
 
     return products;
   }
@@ -76,9 +76,9 @@ export class ProductService {
       throw new NotFoundException('Product not found');
     }
 
-    if (product && product.image) {
-      product.image = await this.supabaseService.getPublicUrl(product.image);
-    }
+    // if (product && product.image) {
+    //   product.image = await this.supabaseService.getPublicUrl(product.image);
+    // }
 
     return product;
   }

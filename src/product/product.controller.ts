@@ -6,21 +6,21 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
-  Res,
   UseInterceptors,
   UploadedFile,
+  Query,
+  Res,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
-import { ProductQueryDto } from './dto/product-query.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { FileDTO } from './dto/file.dto';
 import { SupabaseService } from 'src/integration/supabase.service';
+import { Response } from 'express';
+import { ProductQueryDto } from './dto/product-query.dto';
 
 @ApiTags('product')
 @Controller('product')
