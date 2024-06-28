@@ -2,13 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { FileDTO } from './dto/file.dto';
-import { SupabaseService } from 'src/integration/supabase.service';
 import { ProductQueryDto } from './dto/product-query.dto';
 import * as ExcelJS from 'exceljs';
 import * as PDFKit from 'pdfkit';
 import * as fs from 'fs-extra';
 import { Buffer } from 'buffer'; // Importe o Buffer corretamente
+import { FileDTO } from './dto/file.dto';
+import { SupabaseService } from 'src/integration/supabase.service';
 
 @Injectable()
 export class ProductService {
@@ -24,6 +24,15 @@ export class ProductService {
     // }
 
     // let imagePath = await this.supabaseService.uploadImage(file);
+
+    if (createProductDto.brand_id) {
+      const brand = await this.prisma.brand.findUnique({
+        where: { id: createProductDto.brand_id },
+      });
+      if (!brand) {
+        throw new NotFoundException('Brand not found');
+      }
+    }
 
     const data = {
       ...createProductDto,

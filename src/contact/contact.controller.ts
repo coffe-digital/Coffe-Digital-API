@@ -12,7 +12,9 @@ import {
   import { ContactService } from './contact.service';
   import { UpdateContactDto } from './dto/update-contact.dto';
   import { IsPublic } from 'src/auth/decorators/is-public.decorator';
-  
+  import { ApiTags } from '@nestjs/swagger';
+
+@ApiTags('contact')
   @Controller('contact')
   export class ContactController {
     constructor(private readonly contactService: ContactService) {}

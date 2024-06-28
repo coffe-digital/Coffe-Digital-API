@@ -18,6 +18,8 @@ import { CategoryModule } from './category/category.module';
 import { CategoryProductModule } from './CategoryProduct/category_product.module';
 import { ContactModule } from './contact/contact.module';
 import { PurchaseModule } from './purchase/purchase.module';
+import { BrandModule } from './brand/brand.module';
+import { AboutUsModule } from './about_us/about_us.module';
 import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
@@ -37,6 +39,8 @@ import { MulterModule } from '@nestjs/platform-express';
     CategoryProductModule,
     ContactModule,
     PurchaseModule,
+    BrandModule,
+    AboutUsModule,
     MulterModule.register({
       dest: './uploads',
     }),

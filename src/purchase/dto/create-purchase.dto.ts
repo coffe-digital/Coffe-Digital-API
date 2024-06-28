@@ -1,6 +1,5 @@
 import { IsBoolean, IsString, IsNumber, Matches, IsOptional, IsDate, IsDateString } from 'class-validator'
 import { Purchase } from '../entities/purchase.entity';
-import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePurchaseDto extends Purchase{
