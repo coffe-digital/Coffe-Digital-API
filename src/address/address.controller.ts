@@ -43,17 +43,17 @@ export class AddressController {
   @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdateAddressDto })
   @Patch(':id')
+  update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
+    return this.addressService.update(+id, updateAddressDto);
+  }
+
+  @Get('client/:clientId')
   findByClient(@Param('clientId') clientId: string) {
     return this.addressService.findByClient(+clientId);
   }
 
   @ApiResponse({ status: 204, description: 'The address has been successfully deleted.' })
   @ApiParam({ name: 'id', type: Number })
-  @Delete(':id')
-  update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
-    return this.addressService.update(+id, updateAddressDto);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.addressService.remove(+id);
