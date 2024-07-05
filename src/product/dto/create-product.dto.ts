@@ -24,5 +24,7 @@ export class CreateProductDto extends Product{
     @IsNumber()
     brand_id: number;
 
+    @IsString()
+    @IsOptional()
     image: any;
 }

@@ -28,7 +28,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  //@UseInterceptors(FileInterceptor('image'))
   create(@Body() createProductDto: CreateProductDto, @UploadedFile() file: FileDTO) {
     return this.productService.create(createProductDto, file);
   }

@@ -8,10 +8,10 @@ export class SupabaseService {
   private readonly allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
   constructor() {
-    const supabaseURL = process.env.SUPABASE_URL;
-    const supabaseKEY = process.env.SUPABASE_KEY;
+    //const supabaseURL = process.env.SUPABASE_URL;
+    //const supabaseKEY = process.env.SUPABASE_KEY;
 
-    this.supabase = createClient(supabaseURL, supabaseKEY);
+    //this.supabase = createClient(supabaseURL, supabaseKEY);
   }
 
   getClient(): SupabaseClient {
