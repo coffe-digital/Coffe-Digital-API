@@ -1,6 +1,7 @@
-import { IsBoolean, IsString, IsNumber, Matches, IsOptional, IsDate, IsDateString } from 'class-validator'
+import { IsBoolean, IsString, IsNumber, Matches, IsOptional, IsDate, IsDateString, IsEnum } from 'class-validator'
 import { Purchase } from '../entities/purchase.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Payment } from '../enum/payment.enum';
 
 export class CreatePurchaseDto extends Purchase{
   @ApiProperty({ example: 'Subscription', description: 'Type of purchase' })
@@ -26,8 +27,8 @@ export class CreatePurchaseDto extends Purchase{
   payday: number;
 
   @ApiProperty({ example: 1, description: 'Payment method ID' })
-  @IsNumber()
-  payment_method: number;
+  @IsEnum(Payment)
+  payment_method: Payment;
 
   @ApiProperty({ example: true, description: 'Payment status' })
   @IsBoolean()
