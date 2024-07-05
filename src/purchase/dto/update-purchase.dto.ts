@@ -1,6 +1,7 @@
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { CreatePurchaseDto } from './create-purchase.dto';
-import { IsBoolean, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
+import { Payment } from '../enum/payment.enum';
 
 export class UpdatePurchaseDto extends PartialType(CreatePurchaseDto) {
   @ApiPropertyOptional({ example: 'Subscription', description: 'Type of purchase' })
@@ -30,8 +31,8 @@ export class UpdatePurchaseDto extends PartialType(CreatePurchaseDto) {
 
   @ApiPropertyOptional({ example: 1, description: 'Payment method ID' })
   @IsOptional()
-  @IsNumber()
-  payment_method?: number;
+  @IsEnum(Payment)
+  payment_method?: Payment;
 
   @ApiPropertyOptional({ example: true, description: 'Payment status' })
   @IsOptional()
