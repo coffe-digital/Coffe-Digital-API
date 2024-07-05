@@ -29,7 +29,7 @@ export class ProductController {
 
   @ApiResponse({ status: 201, description: 'The product has been successfully created.' })
   @ApiBody({ type: CreateProductDto })
-  // @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('image'))
   @Post()
   create(@Body() createProductDto: CreateProductDto, @UploadedFile() file: FileDTO) {
     return this.productService.create(createProductDto, file);

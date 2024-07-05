@@ -8,10 +8,10 @@ export class SupabaseService {
   private readonly allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
   constructor() {
-    //const supabaseURL = process.env.SUPABASE_URL;
-    //const supabaseKEY = process.env.SUPABASE_KEY;
-
-    //this.supabase = createClient(supabaseURL, supabaseKEY);
+    const supabaseURL = 'https://jemztihjpmfdpjvzzicw.supabase.co';
+    // const supabaseKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplbXp0aWhqcG1mZHBqdnp6aWN3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTkzNTA0MzgsImV4cCI6MjAzNDkyNjQzOH0.sVBVZG22ajkyXUFbITWFa5hN9QpQRZeFtWIH_1Ewp30';
+    const supabaseKEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplbXp0aWhqcG1mZHBqdnp6aWN3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxOTM1MDQzOCwiZXhwIjoyMDM0OTI2NDM4fQ.qRrzqCoL4DHGauUl19Dz3k6rEukEl-1iXpzF80vbTw4'
+    this.supabase = createClient(supabaseURL, supabaseKEY);
   }
 
   getClient(): SupabaseClient {
