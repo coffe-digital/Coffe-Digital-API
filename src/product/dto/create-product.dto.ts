@@ -1,30 +1,34 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator'
-import { Product } from '../entities/product.entity';
-import { Transform } from 'class-transformer';
+import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateProductDto extends Product{
-    @IsString()
-    name: string;
-    
-    @IsString()
-    description: string;
+export class CreateProductDto {
+  @ApiProperty({ description: 'Name of the product' })
+  @IsString()
+  name: string;
 
-    @IsNumber()
-    @Transform(({ value }) => parseFloat(value))
-    price: number;
+  @ApiProperty({ description: 'Description of the product' })
+  @IsString()
+  description: string;
 
-    @IsNumber()
-    @Transform(({ value }) => parseInt(value, 10))
-    quantity: number;
+  @ApiProperty({ description: 'Price of the product' })
+  @IsNumber()
+  price: number;
 
-    @IsString()
-    bar_code: string;
+  @ApiProperty({ description: 'Quantity of the product' })
+  @IsNumber()
+  quantity: number;
 
-    @IsOptional()
-    @IsNumber()
-    brand_id: number;
+  @ApiProperty({ description: 'Barcode of the product' })
+  @IsString()
+  bar_code: string;
 
-    @IsString()
-    @IsOptional()
-    image: any;
+  @ApiProperty({ description: 'Optional: ID of the brand associated with the product' })
+  @IsOptional()
+  @IsNumber()
+  brand_id?: number;
+
+  @ApiProperty({ description: 'Image of the product', type: 'string', format: 'binary' })
+  @IsString()
+  @IsOptional()
+  image: any;
 }
