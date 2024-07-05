@@ -7,12 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  Res,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserQueryDto } from './dto/user-query.dto';
+import { Response } from 'express';
 
 @ApiTags('users')
 @Controller('user')
@@ -73,5 +76,30 @@ export class UserController {
   @ApiResponse({ status: 404, description: 'User not found.' })
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Get('export/excel')
+  async exportToExcel(@Query() queryParams: UserQueryDto, @Res() res: Response) {
+    const buffer = await this.userService.exportToExcel(queryParams);
+
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="users_${Date.now()}.xlsx"`,
+    });
+
+    res.send(buffer); // Envia o buffer como resposta
+  }
+
+  @Get('export/pdf')
+  async exportToPDF(@Query() queryParams: UserQueryDto, @Res() res: Response) {
+    const buffer = await this.userService.exportToPDF(queryParams);
+
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename="users_${Date.now()}.pdf"`,
+      'Content-Length': buffer.length,
+    });
+
+    res.send(buffer);
   }
 }

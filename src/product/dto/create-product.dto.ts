@@ -28,5 +28,7 @@ export class CreateProductDto {
   brand_id?: number;
 
   @ApiProperty({ description: 'Image of the product', type: 'string', format: 'binary' })
+  @IsString()
+  @IsOptional()
   image: any;
 }
