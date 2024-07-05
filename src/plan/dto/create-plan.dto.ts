@@ -1,18 +1,20 @@
-import { IsBoolean, IsString, IsNumber } from 'class-validator'
-import {Plan} from '../entities/plan.entity'
+import { IsBoolean, IsString, IsNumber } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePlanDto extends Plan {
-    
-    @IsString()
-    name: string;
-    
-    @IsString()
-    description: string;
-    
-    @IsBoolean()
-    status: boolean;
+export class CreatePlanDto {
+  @ApiProperty({ description: 'Name of the plan' })
+  @IsString()
+  name: string;
 
-    @IsNumber()
-    price: number;
-    
+  @ApiProperty({ description: 'Description of the plan' })
+  @IsString()
+  description: string;
+
+  @ApiProperty({ description: 'Status of the plan (active/inactive)' })
+  @IsBoolean()
+  status: boolean;
+
+  @ApiProperty({ description: 'Price of the plan' })
+  @IsNumber()
+  price: number;
 }

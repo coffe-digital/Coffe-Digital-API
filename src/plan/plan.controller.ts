@@ -13,7 +13,7 @@ import {
 import { PlanService } from './plan.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { PlanQueryDto } from './dto/plan-query.dto';
 import { Response } from 'express';
 
@@ -22,31 +22,43 @@ import { Response } from 'express';
 export class PlanController {
   constructor(private readonly planService: PlanService) {}
 
+  @ApiResponse({ status: 201, description: 'The plan has been successfully created.' })
+  @ApiBody({ type: CreatePlanDto })
   @Post()
   create(@Body() createPlanDto: CreatePlanDto) {
     return this.planService.create(createPlanDto);
   }
 
+  @ApiResponse({ status: 200, description: 'List of all plans.' })
   @Get()
   findAll() {
     return this.planService.findAll();
   }
 
+  @ApiResponse({ status: 200, description: 'Plan found by ID.' })
+  @ApiParam({ name: 'id', type: Number })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.planService.findOne(+id);
   }
 
+  @ApiResponse({ status: 200, description: 'The plan has been successfully updated.' })
+  @ApiParam({ name: 'id', type: Number })
+  @ApiBody({ type: UpdatePlanDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePlanDto: UpdatePlanDto) {
     return this.planService.update(+id, updatePlanDto);
   }
 
+  @ApiResponse({ status: 204, description: 'The plan has been successfully deleted.' })
+  @ApiParam({ name: 'id', type: Number })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.planService.remove(+id);
   }
 
+  @ApiResponse({ status: 200, description: 'Plans exported to Excel.' })
+  @ApiQuery({ type: PlanQueryDto, required: false })
   @Get('export/excel')
   async exportToExcel(@Query() queryParams: PlanQueryDto, @Res() res: Response) {
     try {
@@ -82,6 +94,8 @@ export class PlanController {
     }
   }
 
+  @ApiResponse({ status: 200, description: 'Plans exported to PDF.' })
+  @ApiQuery({ type: PlanQueryDto, required: false })
   @Get('export/pdf')
   async exportToPDF(@Query() queryParams: PlanQueryDto, @Res() res: Response) {
     try {
